@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pathfinder App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .screen {
+      display: none;
+      height: 100vh;
+      padding: 40px 20px;
+      text-align: center;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"], input[type="date"] {
+      width: 80%;
+      padding: 12px;
+      margin: 10px auto;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      display: block;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 12px auto;
+      background-color: #ddd;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .cancel {
+      background: none;
+      border: none;
+      text-decoration: underline;
+      cursor: pointer;
+      color: #000;
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .tag {
+      padding: 10px 16px;
+      border: 2px solid #ccc;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .tag.selected {
+      background-color: #4CAF50;
+      color: #fff;
+      border-color: #4CAF50;
+    }
+
+    .yes-no {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .yes-no button {
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="screen0" class="screen active">
+    <h1>Pathfinder</h1>
+    <p>Curate your dream life, one path at a time</p>
+    <button onclick="goTo(1)">Get Started</button>
+  </div>
+
+  <div id="screen1" class="screen">
+    <h2>Sign up</h2>
+    <input type="text" placeholder="Username">
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <input type="password" placeholder="Confirm Password">
+    <button onclick="goTo(2)">Sign up</button>
+  </div>
+
+  <div id="screen2" class="screen">
+    <h2>When's your Birthday</h2>
+    <input type="date">
+    <button onclick="goTo(3)">Continue</button>
+    <button class="cancel" onclick="goTo(1)">Cancel</button>
+  </div>
+
+  <div id="screen3" class="screen">
+    <h2>What's your current occupation</h2>
+    <input type="text" placeholder="Occupation">
+    <button onclick="goTo(4)">Continue</button>
+    <button class="cancel" onclick="goTo(1)">Cancel</button>
+  </div>
+
+  <div id="screen4" class="screen">
+    <h2>Where do you currently live?</h2>
+    <input type="text" placeholder="Country">
+    <button onclick="goTo(5)">Continue</button>
+    <button class="cancel" onclick="goTo(1)">Cancel</button>
+  </div>
+
+  <div id="screen5" class="screen">
+    <h2>Do you see yourself living in the same city in the future?</h2>
+    <div class="yes-no">
+      <button onclick="goTo(7)">Yes</button>
+      <button onclick="goTo(6)">No</button>
+    </div>
+    <button class="cancel" onclick="goTo(1)">Cancel</button>
+  </div>
+
+  <div id="screen6" class="screen">
+    <h2>Describe where you see yourself living in the future</h2>
+    <input type="text" placeholder="e.g. warm weather, city">
+    <button onclick="goTo(7)">Continue</button>
+    <button class="cancel" onclick="goTo(1)">Cancel</button>
+  </div>
+
+  <div id="screen7" class="screen">
+    <h2>Pick up to 5. You can always change this later.</h2>
+    <div class="tags-container" id="tags">
+      <div class="tag">Career</div>
+      <div class="tag">Personal Growth</div>
+      <div class="tag">Social Life</div>
+      <div class="tag">Finances</div>
+      <div class="tag">Relationships</div>
+      <div class="tag">Family</div>
+      <div class="tag">Education</div>
+      <div class="tag">Community</div>
+      <div class="tag">Mental Wellness</div>
+      <div class="tag">Physical Health</div>
+      <div class="tag">Spirituality</div>
+    </div>
+    <button onclick="alert('Submitted!')">✓ Done</button>
+    <button class="cancel" onclick="goTo(1)">Cancel</button>
+  </div>
+
+  <script>
+    function goTo(n) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen' + n).classList.add('active');
+    }
+
+    const tags = document.querySelectorAll('.tag');
+    let selected = [];
+
+    tags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        const value = tag.textContent;
+        if (tag.classList.contains('selected')) {
+          tag.classList.remove('selected');
+          selected = selected.filter(t => t !== value);
+        } else {
+          if (selected.length < 5) {
+            tag.classList.add('selected');
+            selected.push(value);
+          } else {
+            alert('You can only select up to 5.');
+          }
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
